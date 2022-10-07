@@ -1,5 +1,6 @@
 // import logo from './logo.svg';
 import "./App.css";
+import { useState } from "react";
 
 // 다음과 같이 함수형태로 컴포넌트화 시킬 수 있다.
 function Header(props) {
@@ -29,10 +30,11 @@ function Nav(props) {
     lis.push(
       <li key={t.id}>
         <a
+          id = {t.id}
           href={"/read/" + t.id}
           onClick={(event) => {
             event.preventDefault();
-            props.onChangeMode(t.id);
+            props.onChangeMode(Number(event.target.id));
           }}
         >
           {t.title}
@@ -60,27 +62,52 @@ const Article = (props) => {
 //기능별 OR UI 별로 필요한 요소들을 정의해서 가져다 사용할 수 있기 때문에 가독성도 올라가고 여러모로 좋다.
 
 function App() {
+  let content = null; // 값 초기화.
+
+  // const mode ='Welcome';
+  const [mode, setMode] = useState("Welcome");
+  const [id, setId] = useState(null);
+
   const topics = [
     { id: 1, title: "html", body: "html is..." },
     { id: 2, title: "css", body: "css is..." },
     { id: 3, title: "js", body: "js is..." },
     { id: 4, title: "ts", body: "ts is..." },
   ];
+
+  if (mode === "Welcome") {
+    content = <Article title="Welocme" body="Hello,Web"></Article>;
+  } else if (mode === "Read") {
+    let title,
+      body = null;
+    for (let i = 0; i < topics.length; i++) {
+      console.log(topics[i].id, id);
+      if (topics[i].id === id) {
+        title = topics[i].title;
+        body = topics[i].body;
+      }
+    }
+
+    content = <Article title={title} body={body}></Article>;
+  }
+
   return (
     <div>
       <Header
         title="React"
         onChangeMode={() => {
-          alert("!!");
+          setMode("Welcome");
         }}
       ></Header>
       <Nav
         topics={topics}
         onChangeMode={(id) => {
-          alert(id);
+          setMode("Read");
+          setId(id);
         }}
       ></Nav>
-      <Article title="Welocme" body="Hello,Web"></Article>
+      {/* <Article title="Welocme" body="Hello,Web"></Article> */}
+      {content}
     </div>
   );
 }
