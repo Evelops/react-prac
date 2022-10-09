@@ -22,6 +22,7 @@ function Header(props) {
   );
 }
 
+
 // component -> Nav
 function Nav(props) {
   const lis = [];
@@ -30,7 +31,7 @@ function Nav(props) {
     lis.push(
       <li key={t.id}>
         <a
-          id = {t.id}
+          id={t.id}
           href={"/read/" + t.id}
           onClick={(event) => {
             event.preventDefault();
@@ -59,6 +60,27 @@ const Article = (props) => {
   );
 };
 
+function Create(props){
+  return <article>
+    <h2>Create</h2>
+    <form onSubmit={event=>{
+      event.preventDefault(); 
+      const title = event.target.title.value;
+      const body = event.target.body.value;
+      props.onCreate(title,body);
+
+    }}>
+      <p><input type="text" name ="title" placeholder="title"/></p>
+      <p><textarea name="body" placeholder="body"></textarea></p> 
+      <p><input type="submit" value="Create" /></p>
+
+    </form>
+
+  </article>
+}
+
+
+
 //기능별 OR UI 별로 필요한 요소들을 정의해서 가져다 사용할 수 있기 때문에 가독성도 올라가고 여러모로 좋다.
 
 function App() {
@@ -67,13 +89,13 @@ function App() {
   // const mode ='Welcome';
   const [mode, setMode] = useState("Welcome");
   const [id, setId] = useState(null);
-
-  const topics = [
+  const [nextId, setNextId] = useState(4);
+  const [topics, setTopics] = useState([
     { id: 1, title: "html", body: "html is..." },
     { id: 2, title: "css", body: "css is..." },
     { id: 3, title: "js", body: "js is..." },
     { id: 4, title: "ts", body: "ts is..." },
-  ];
+  ]);
 
   if (mode === "Welcome") {
     content = <Article title="Welocme" body="Hello,Web"></Article>;
@@ -89,6 +111,13 @@ function App() {
     }
 
     content = <Article title={title} body={body}></Article>;
+  } else if(mode === "CREATE"){
+    content = <Create onCreate={(title,body)=>{
+      const newTopic = {id:nextId, title:title, body:body}
+      const newTopcics = [...topics]
+      newTopcics.push(newTopic);
+      setTopics(newTopcics);
+    }}></Create>
   }
 
   return (
@@ -108,6 +137,15 @@ function App() {
       ></Nav>
       {/* <Article title="Welocme" body="Hello,Web"></Article> */}
       {content}
+      <a
+        href="/create"
+        onClick={(event) => {
+          event.preventDefault();
+          setMode('CREATE');
+        }}
+      >
+        Create
+      </a>
     </div>
   );
 }
