@@ -9,6 +9,7 @@ import Home from './page/Home';
 import Counter from './page/Counter';
 import Input from './page/Input';
 import Input2 from './page/Input2';
+import UserList from './page/List';
 
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
         */}
         <Link to="/">Home</Link> | <Link to="/about">About</Link> 
         | <Link to = "/counter">Counter</Link> | <Link to = "/input">Input</Link> 
-        | <Link to = "/input2">Input2</Link> 
+        | <Link to = "/input2">Input2</Link> | <Link to = "/list">List</Link>
       </nav>  
       {/*
       위에서 Link로 정의한 라우팅 경로에 해당하는 실제 경로값을 지정해주는 부분
@@ -33,6 +34,7 @@ function App() {
         <Route path ="/counter" element = {<Counter />}></Route>
         <Route path ="/input" element = {<Input />}></Route>
         <Route path ="/input2" element = {<Input2 />}></Route>
+        <Route path ="/list" element = {<UserList />}></Route>
         </Routes>    
     </div>
   );
