@@ -35,6 +35,7 @@ function App() {
         <Route path ="/input" element = {<Input />}></Route>
         <Route path ="/input2" element = {<Input2 />}></Route>
         <Route path ="/list" element = {<UserList />}></Route>
+        
         </Routes>    
     </div>
   );
